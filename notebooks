@@ -1,0 +1,317 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/ssarimm/Machine-Learning-Internship---Flyrank/blob/main/notebooks\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "WU0g7pRMGrLm"
+      },
+      "source": [
+        "# ML-02 — Research Question and Provisional Lane\n",
+        "\n",
+        "[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ssarimm/Machine-Learning-Internship---Flyrank/blob/main/work/notebooks/w01_research_question.ipynb?flush_cache=true)\n",
+        "\n",
+        "This skeleton is yours to fill. Work the sections **in order** — each one has a one-line hint. Simple words, honest numbers.\n",
+        "\n",
+        "> Working with an AI assistant? Tell it to read `skills/README.md` first and load the one skill this assignment names on its card."
+      ],
+      "id": "WU0g7pRMGrLm"
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "X-zE-MVyGrLy"
+      },
+      "source": [
+        "## 1. My lane (or freestyle) and why\n",
+        "\n",
+        "*Name your lane — or say 'freestyle' and describe your own question. One short paragraph: why this one?*"
+      ],
+      "id": "X-zE-MVyGrLy"
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "\n",
+        "I chose the Refresh / Content Opportunity Scoring lane. I want to investigate how to rank web pages so that a content or SEO team knows which pages to review first. The starter dataset contains observable signals such as impressions, clicks, page age, position, and trend information. I will study whether these signals can help identify pages marked as declining and create a useful review queue. I chose this lane because it connects data analysis to a practical decision, while allowing me to compare a simple rule with a machine-learning approach."
+      ],
+      "metadata": {
+        "id": "Awufb1mD8hjK"
+      },
+      "id": "Awufb1mD8hjK"
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "id": "pBbWDKWmGrL0"
+      },
+      "outputs": [],
+      "source": [
+        "# This cell is for CODE (numbers, a query, a check).\n",
+        "# Write your text answer in the cell ABOVE this one — typing sentences here breaks Run All.\n"
+      ],
+      "id": "pBbWDKWmGrL0"
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "ajxRXDZQGrL4"
+      },
+      "source": [
+        "## 2. The question: decision, action, cost of a wrong call\n",
+        "\n",
+        "*What decision does your work improve? Who acts on it? What does a wrong recommendation cost?*"
+      ],
+      "id": "ajxRXDZQGrL4"
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**Decision:** Which pages go to the top of the refresh queue.\n",
+        "**Who acts:** A content or SEO team with limited time to rewrite pages.\n",
+        "**Cost of a wrong call:** If I flag pages that are not really declining, the team\n",
+        "wastes effort refreshing healthy pages. If I miss declining pages, they keep\n",
+        "losing traffic. Both costs are real, so I will report Precision@K and say how\n",
+        "uncertain the result is"
+      ],
+      "metadata": {
+        "id": "L6d4xH1O9I8i"
+      },
+      "id": "L6d4xH1O9I8i"
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "id": "xYw_i74SGrL5"
+      },
+      "outputs": [],
+      "source": [
+        "# This cell is for CODE (numbers, a query, a check).\n",
+        "# Write your text answer in the cell ABOVE this one — typing sentences here breaks Run All.\n"
+      ],
+      "id": "xYw_i74SGrL5"
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "n1H9v5IVGrL7"
+      },
+      "source": [
+        "## 3. Quick look at the data (2-3 real numbers)\n",
+        "\n",
+        "*Load the starter CSV below and show 2-3 real numbers that make your lane look worth the next 7 weeks.*\n",
+        "\n",
+        "In the starter data, __% of pages are declining. CTR falls from about __ on page 1\n",
+        "to about __ for deep pages, so position matters. Among stale + visible pages,\n",
+        "__% are declining versus __% overall, which suggests this lane has signal worth\n",
+        "studying."
+      ],
+      "id": "n1H9v5IVGrL7"
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "In the starter dataset of 30,000 pages across 32 clients, 54.21% of pages are labelled as declining. The average calculated CTR is 0.35% for page 1 results compared with 0.06% for deep pages, suggesting that CTR differs by search position. Among the 17 stale + visible pages, 94.12% are labelled as declining, compared with 54.21% overall. This small subgroup shows a pattern worth investigating, but its size is too small to support a strong conclusion on its own. I will investigate whether observable page signals can help prioritize pages for review."
+      ],
+      "metadata": {
+        "id": "OGFl8CNPDIp3"
+      },
+      "id": "OGFl8CNPDIp3"
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 3,
+      "metadata": {
+        "id": "M1wIjIMmGrL8",
+        "outputId": "430a20a0-c0f5-4c92-a5a0-27d8cdbc42e0",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "30000 pages |  declining rate: 0.542\n"
+          ]
+        }
+      ],
+      "source": [
+        "\n",
+        "import os, sys, subprocess\n",
+        "\n",
+        "IN_COLAB = \"google.colab\" in sys.modules\n",
+        "REPO_URL = \"https://github.com/flyrank-bih/flyrank-ml-internship-starter\"\n",
+        "REPO_DIR = \"flyrank-ml-internship-starter\"\n",
+        "\n",
+        "if IN_COLAB:\n",
+        "    if not os.path.isdir(REPO_DIR):\n",
+        "        subprocess.run([\"git\", \"clone\", \"--depth\", \"1\", REPO_URL, REPO_DIR], check=True)\n",
+        "    os.chdir(REPO_DIR)\n",
+        "    subprocess.run([sys.executable, \"-m\", \"pip\", \"install\", \"-q\", \"-r\", \"requirements.txt\"], check=True)\n",
+        "elif os.path.basename(os.getcwd()) == \"notebooks\":\n",
+        "    os.chdir(\"..\")\n",
+        "\n",
+        "import pandas as pd, numpy as np\n",
+        "df = pd.read_csv(\"data/raw/content_refresh_anonymized.csv\")\n",
+        "\n",
+        "# The label: a page is 'declining' when its recent trend is down. Simple, honest starter label.\n",
+        "df[\"is_declining_label\"] = df[\"trend_direction\"].str.lower().eq(\"down\").astype(int)\n",
+        "print(df.shape[0], \"pages |  declining rate:\", round(df[\"is_declining_label\"].mean(), 3))"
+      ],
+      "id": "M1wIjIMmGrL8"
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "# 1. What percentage of pages are labelled as declining?\n",
+        "overall_decline_pct = (\n",
+        "    (df[\"trend_direction\"] == \"down\").mean() * 100\n",
+        ")\n",
+        "\n",
+        "# 2. Calculate CTR for pages with at least 100 impressions.\n",
+        "visible = df[df[\"impressions_90d\"] >= 100].copy()\n",
+        "\n",
+        "visible[\"calculated_ctr_pct\"] = (\n",
+        "    visible[\"clicks_90d\"] / visible[\"impressions_90d\"]\n",
+        ") * 100\n",
+        "\n",
+        "# Find the average calculated CTR for each position tier.\n",
+        "ctr_by_position = (\n",
+        "    visible.groupby(\"position_tier\")[\"calculated_ctr_pct\"].mean()\n",
+        ")\n",
+        "\n",
+        "# 3. Compare decline rates for stale + visible pages vs all pages.\n",
+        "stale_visible = df[\n",
+        "    (df[\"days_since_last_update\"] >= 180)\n",
+        "    & (df[\"impressions_90d\"] >= 500)\n",
+        "].copy()\n",
+        "\n",
+        "stale_decline_pct = (\n",
+        "    (stale_visible[\"trend_direction\"] == \"down\").mean() * 100\n",
+        ")\n",
+        "\n",
+        "print(f\"Total pages: {len(df):,}\")\n",
+        "print(f\"Overall decline rate: {overall_decline_pct:.2f}%\")\n",
+        "print(\"\\nAverage calculated CTR by position tier (%):\")\n",
+        "print(ctr_by_position.round(2).to_string())\n",
+        "print(f\"\\nStale + visible pages: {len(stale_visible):,}\")\n",
+        "print(f\"Decline rate among stale + visible pages: {stale_decline_pct:.2f}%\")\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "_1iqTeYo9qrp",
+        "outputId": "b0550b45-8be3-4856-c922-098ba7ae5c7e"
+      },
+      "id": "_1iqTeYo9qrp",
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Total pages: 30,000\n",
+            "Overall decline rate: 54.21%\n",
+            "\n",
+            "Average calculated CTR by position tier (%):\n",
+            "position_tier\n",
+            "deep        0.06\n",
+            "page_1      0.35\n",
+            "page_3_5    0.14\n",
+            "striking    0.26\n",
+            "top_3       0.33\n",
+            "\n",
+            "Stale + visible pages: 17\n",
+            "Decline rate among stale + visible pages: 94.12%\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "kscZySeDGrL9"
+      },
+      "source": [
+        "## 4. Careful words: what I can and can't claim\n",
+        "\n",
+        "*Write what your work will be able to say (observed, directional, decision-support) — and what it never will (causal proof, 'predicting Google').*\n"
+      ],
+      "id": "kscZySeDGrL9"
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "What my work can say:\n",
+        "\n",
+        "Observed: In this anonymized dataset of 30,000 pages, 54.21% of pages are labelled as declining. The average calculated CTR also differs by search position, from 0.35% for page 1 pages to 0.06% for deep pages.\n",
+        "\n",
+        "Directional: I can investigate which observable page characteristics tend to be associated with the down label. These patterns may help identify useful signals, but they do not establish cause and effect.\n",
+        "\n",
+        "Decision-support: I can produce a ranked list of pages for an SEO or content team to review first and evaluate how well the ranking identifies pages labelled as declining.\n",
+        "\n",
+        "What my work cannot claim:\n",
+        "\n",
+        "Causal proof: I cannot claim that updating a page will recover its traffic just because the page is labelled as declining.\n",
+        "\n",
+        "Predicting Google: I am not predicting Google's algorithm. I am studying patterns in the available dataset to rank pages for review.\n",
+        "\n",
+        "General truth for all websites: The results come from one anonymized sample and may not generalize to other websites or clients.\n",
+        "\n",
+        "Strong conclusions from small groups: Only 17 pages met my stale + visible criteria. Although 94.12% of those pages are labelled as declining, this small subgroup is not enough to support a strong general conclusion."
+      ],
+      "metadata": {
+        "id": "x3zLU-fKDrLR"
+      },
+      "id": "x3zLU-fKDrLR"
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "G6baDxJ2GrL_"
+      },
+      "source": [
+        "## Self-check\n",
+        "\n",
+        "Before you submit, confirm each line honestly:\n",
+        "\n",
+        "- [ ] Every section above is filled — markdown thinking AND the code that backs it\n",
+        "- [ ] The notebook runs top to bottom with no errors (Runtime → Run all)\n",
+        "- [ ] No client names, URLs, or private queries anywhere\n",
+        "- [ ] My claims use careful words: observed, measured, directional, decision-support\n",
+        "- [ ] Committed to my repo under `work/notebooks/` — then submit your repo URL on the card. Done."
+      ],
+      "id": "G6baDxJ2GrL_"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "name": "python3"
+    },
+    "language_info": {
+      "name": "python"
+    },
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

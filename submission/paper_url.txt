@@ -1,1 +1,1 @@
-https://github.com/ssarimm/Machine-Learning-Internship---Flyrank/blob/main/work/notebooks/capstone.ipynb
+https://ssarimm.github.io/Machine-Learning-Internship---Flyrank/
